@@ -43,7 +43,7 @@ public class BinaryTree {
         if (current == null) {
             return false;
         }
-        if (current.left == null && current.right == null) {
+        if (current.left == null && current.right == null) {   // Узел не имеет потомков
             if (current == head) {
                 head = null;
             } else if (isLeftChild) {
@@ -51,7 +51,7 @@ public class BinaryTree {
             } else {
                 parentOfNode.right = null;
             }
-        } else if (current.right == null) {
+        } else if (current.right == null) {    //  Узел имеет одно потомка(левого)
             if (current == head) {
                 head = current.left;
             } else if (isLeftChild) {
@@ -59,7 +59,7 @@ public class BinaryTree {
             } else {
                 parentOfNode.right = current.left;
             }
-        } else if (current.left == null) {
+        } else if (current.left == null) {   //  Узел имеет одного потомка(правого)
             if (current == head) {
                 head = current.right;
             } else if (isLeftChild) {
@@ -67,7 +67,7 @@ public class BinaryTree {
             } else {
                 parentOfNode.right = current.right;
             }
-        } else {
+        } else {                                                  // Удаляемый узел имеет двух потомков
             BinaryTreeNode successor = getSuccessor(current);
             if (current == head) {
                 head = successor;
@@ -99,7 +99,7 @@ public class BinaryTree {
         return current;
     }
 
-    public BinaryTreeNode getSuccessor(BinaryTreeNode node) {
+    public BinaryTreeNode getSuccessor(BinaryTreeNode node) {       //    Поиск преемника
         BinaryTreeNode successorParent = node;
         BinaryTreeNode successor = node;
         BinaryTreeNode current = node.right;
