@@ -76,6 +76,7 @@ public class BinaryTree {
             } else {
                 parentOfNode.right = successor;
             }
+            successor.left = current.left;
         }
 
         return true;
@@ -107,6 +108,11 @@ public class BinaryTree {
             successorParent = successor;
             successor = current;
             current = current.left;
+        }
+
+        if (successor != node.right) {              // преемник не равен правому потомку узла
+            successorParent.left = successor.right;
+            successor.right = node.right;
         }
         return successor;
     }
