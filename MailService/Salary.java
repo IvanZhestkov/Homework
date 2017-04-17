@@ -16,16 +16,16 @@ public class Salary implements Message<Integer> {
 
     @Override
     public String getFrom() {
-        return null;
+        return from;
     }
 
     @Override
     public String getTo() {
-        return null;
+        return to;
     }
 
     @Override
     public Integer getContent() {
-        return null;
+        return salary;
     }
 }

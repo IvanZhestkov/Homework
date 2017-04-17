@@ -16,16 +16,16 @@ public class MailMessage implements Message<String> {
 
     @Override
     public String getFrom() {
-        return null;
+        return from;
     }
 
     @Override
     public String getTo() {
-        return null;
+        return to;
     }
 
     @Override
     public String getContent() {
-        return null;
+        return content;
     }
 }
