@@ -164,7 +164,7 @@ public class BinaryTree {
 
     public void zigZig(BinaryTreeNode node) {
         BinaryTreeNode z = node.parent.parent;
-        BinaryTreeNode z1 = node.parent.parent;
+        BinaryTreeNode z1 = z;
         BinaryTreeNode parent1 = z1.parent;
 
         BinaryTreeNode y = node.parent;
@@ -195,11 +195,12 @@ public class BinaryTree {
             z.left = g1;
             z.parent = y;
             g1.parent = z;
-            /*if (isLeft(z1)) {   ???
+            node.parent = parent1;
+            if (isLeft(z1)) {
                 parent1.left = node;
             } else {
                 parent1.right = node;
-            }*/
+            }
             splay(node);
         }
     }
@@ -221,6 +222,7 @@ public class BinaryTree {
             b.parent = z;
             y.left = g;
             g.parent = y;
+            node.parent = parent1;
             if (isLeft(z1)) {
                 parent1.left = node;
             } else {
@@ -236,6 +238,7 @@ public class BinaryTree {
             b1.parent = z;
             y.right = g1;
             g1.parent = y;
+            node.parent = parent1;
             if (isLeft(z1)) {
                 parent1.left = node;
             } else {
