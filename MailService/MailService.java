@@ -1,4 +1,4 @@
-package twosemestr;
+package twosemestr.informatics;
 
 import java.util.List;
 import java.util.Map;

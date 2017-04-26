@@ -1,4 +1,4 @@
-package twosemestr;
+package twosemestr.informatics;
 
 /**
  * Created by User on 15.04.2017.
@@ -75,7 +75,7 @@ public class Main {
         )) {
             throw new RuntimeException("wrong mailService mailbox content (2)");
         }
-        if (mailBox.get(randomTo).equals(Collections.<String>emptyList())) {
+        if (!mailBox.get(randomTo).equals(Collections.<String>emptyList())) {
             throw new RuntimeException("wrong mailService mailbox content (3)");
         }
 
