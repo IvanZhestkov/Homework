@@ -1,5 +1,10 @@
 package twosemestr.aisd;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  * Created by User on 23.04.2017.
  */
@@ -26,12 +31,14 @@ public class BinaryTree {
         if (value < node.value) {
             if (node.left == null) {
                 node.left = new BinaryTreeNode(value, node);
+                splay(node.left);
             } else {
                 add(node.left, value);
             }
         } else {
             if (node.right == null) {
                 node.right = new BinaryTreeNode(value, node);
+                splay(node.right);
             } else {
                 add(node.right, value);
             }
@@ -93,8 +100,18 @@ public class BinaryTree {
             successor.left = current.left;
             current.left.parent = successor; // 4
         }
-
         return true;
+        /*if (current.right == null) {
+            head = current.left;
+
+        } else {
+            head = current.right;
+        }
+        if (current.left != null && current.right != null) {
+            head = current.left;
+            head.right = current.right;
+        }
+        return true;*/
     }
 
     public BinaryTreeNode find(int value) {
@@ -112,6 +129,7 @@ public class BinaryTree {
                 return null;
             }
         }
+        splay(current);
         return current;
     }
 
@@ -160,20 +178,25 @@ public class BinaryTree {
             node.parent = null;
             head.right = node.left;
             node.left = head;
-            node.left.right.parent = head;
+            if (node.left.right != null) {
+                node.left.right.parent = head;
+            }
             head = node;
         } else {
             head.parent = node;
             node.parent = null;
             head.left = node.right;
             node.right = head;
-            node.right.left.parent = head;
+            if (node.right.left != null) {
+                node.right.left.parent = head;
+            }
             head = node;
         }
     }
 
     public void zigZig(BinaryTreeNode node) {
-        BinaryTreeNode z = node.parent.parent;
+        /*BinaryTreeNode z = node.parent.parent;
+        BinaryTreeNode node1 = node;
         BinaryTreeNode y1 = node.parent, node2 = node.parent;
         if (proverka(z)) {
             node2 = null;
@@ -218,11 +241,58 @@ public class BinaryTree {
 
             node.parent = node2;
             splay(node);
+        }*/
+        BinaryTreeNode z = node.parent.parent;
+        BinaryTreeNode y = node.parent;
+        BinaryTreeNode node2 = node;
+        if (proverka(z)) {
+            node2 = null;
+        } else {
+            if (z == z.parent.left) {
+                z.parent.left = node2;
+                node2 = z.parent;
+            } else {
+                z.parent.right = node2;
+                node2 = z.parent;
+            }
+        }
+        if (node == node.parent.right) {
+            y.right = node.left;
+            if (node.left != null) {
+                node.left.parent = y;
+            }
+            y.parent = node;
+            z.right = y.left;
+            if (y.left != null) {
+                y.left.parent = z;
+            }
+            z.parent = y;
+            y.left = z;
+            node.left = y;
+
+            node.parent = node2;
+            splay(node);
+        } else {
+            y.left = node.right;
+            if (node.right != null) {
+                node.right.parent = y;
+            }
+            y.parent = node;
+            z.left = y.right;
+            if (y.right != null) {
+                y.right.parent = z;
+            }
+            z.parent = y;
+            y.right = z;
+            node.right = y;
+
+            node.parent = node2;
+            splay(node);
         }
     }
 
     public void zigZag(BinaryTreeNode node) {
-        BinaryTreeNode z = node.parent.parent;
+        /*BinaryTreeNode z = node.parent.parent;
         BinaryTreeNode node1 = node;
         BinaryTreeNode node2 = node.parent;
         if (proverka(z)) {
@@ -239,9 +309,9 @@ public class BinaryTree {
 
         if (node.parent.left == node) {
             z.right.left = node1.right;
-            node.left = z;
             node.right = z.right;
             z.right = node1.left;
+            node.left = z;
             if (z.right != null) {
                 z.right.parent = z;
             }
@@ -255,9 +325,9 @@ public class BinaryTree {
             splay(node);
         } else {
             z.left.right = node1.left;
-            node.right = z;
             node.left = z.left;
             z.left = node1.right;
+            node.right = z;
             if (z.left != null) {
                 z.left.parent = z;
             }
@@ -267,6 +337,52 @@ public class BinaryTree {
             z.parent = node;
             node.left.parent = node;
 
+            node.parent = node2;
+            splay(node);
+        }*/
+
+        BinaryTreeNode z = node.parent.parent;
+        BinaryTreeNode y = node.parent;
+        BinaryTreeNode node2 = node;
+        if (proverka(z)) {
+            node2 = null;
+        } else {
+            if (z == z.parent.left) {
+                z.parent.left = node2;
+                node2 = z.parent;
+            } else {
+                z.parent.right = node2;
+                node2 = z.parent;
+            }
+        }
+        if (node.parent.left == node) {
+            z.right = node.left;
+            if (node.left != null) {
+                node.left.parent = z;
+            }
+            z.parent = node;
+            y.left = node.right;
+            if (node.right != null) {
+                node.right.parent = y;
+            }
+            y.parent = node;
+            node.left = z;
+            node.right = y;
+            node.parent = node2;
+            splay(node);
+        } else {
+            z.left = node.right;
+            if (node.right != null) {
+                node.right.parent = z;
+            }
+            z.parent = node;
+            y.right = node.left;
+            if (node.left != null) {
+                node.left.parent = y;
+            }
+            y.parent = node;
+            node.right = z;
+            node.left = y;
             node.parent = node2;
             splay(node);
         }
@@ -279,4 +395,19 @@ public class BinaryTree {
             return false;
         }
     }
+
+    public void bfs() {
+        Queue<BinaryTreeNode> st = new ArrayDeque<>();
+        st.add(head);
+        while (!st.isEmpty()) {
+            BinaryTreeNode n = st.remove();
+            System.out.println(n.value);
+            if (n.left != null) {
+                st.add(n.left);
+            }
+            if (n.right != null) {
+                st.add(n.right);
+        }
+    }
+}
 }
